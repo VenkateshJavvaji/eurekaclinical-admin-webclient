@@ -139,7 +139,7 @@
 					</div>
 				</div>
 			</div>
-
+			<!--
 			<div class="row form-group">
 				<div class="col" align="left">
 					<label for="roles">Roles</label>
@@ -149,6 +149,21 @@
 							value="{{user.id}}" [checked]="user.isChecked"
 							(change)="changeCheckbox(user.id)" /> <label for="{{user.name}}">
 								{{user.name | titlecase }}</label></li>
+						</ng-container>
+					</ul>
+				</div>
+			</div>
+		-->
+
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="groups">Groups</label>
+					<ul class="checkbox-grid">
+						<ng-container *ngFor="let group of userGroups">
+						<li><input type="checkbox" name="userGroups"
+							value="{{group.id}}" [checked]="group.isChecked"
+							(change)="changeCheckbox(group.id)" /> <label for="{{group.name}}">
+								{{group.name | titlecase }}</label></li>
 						</ng-container>
 					</ul>
 				</div>

@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AdminUser } from "../../models/admin-user";
 import { AdminService } from '../../services/admin.service';
 import { Role } from '../../models/role';
+import { Group } from '../../models/group';
 
 @Component( {
     selector: 'app-create-user',
@@ -15,10 +16,12 @@ export class CreateUserComponent implements OnInit {
     errorMsg: string = '';
     model: AdminUser = new AdminUser();
     userRoles: Role[] = [];
+    userGroups: Group[] = [];
     userVerified: string = 'Verified';
     userActivated: string = 'Activated';
     //verifyPassword: string;
     role: Role;
+    group: Group;
     password: string;
 
     //patterns for validation
@@ -41,6 +44,17 @@ export class CreateUserComponent implements OnInit {
         this.role.id = 2;
         this.role.name = 'admin';
         this.userRoles.push( this.role );
+
+        this.group = new Group();
+        this.group.id = 1;
+        this.group.name = 'read';
+        this.group.isChecked = true;
+        this.userGroups.push( this.group );
+        this.group = new Group();
+        this.group.id = 2;
+        this.group.name = 'readwrite';
+        this.userGroups.push( this.group );
+
         this.password = this.adminService.createRandomPassword( 8 );
         this.model.password = this.password;
         //this.verifyPassword = this.password;
@@ -56,11 +70,22 @@ export class CreateUserComponent implements OnInit {
         this.model.fullName = this.model.firstName + ' ' + this.model.lastName;
         //transmit roles
         this.model.roles = new Array<any>();
+        //transmit groups
+        this.model.groups = new Array<any>();
+
+        for ( var i = 0; i < this.userGroups.length; i++) {
+            if( this.userGroups[i].isChecked ) {
+                this.model.groups.push( this.userGroups[i].id);
+                this.model.roles.push( this.userRoles[i].id );
+            }
+        }
+        /**
         for ( var i = 0; i < this.userRoles.length; i++ ) {
             if ( this.userRoles[i].isChecked ) {
                 this.model.roles.push( this.userRoles[i].id );
             }
         }
+        */
         this.model.verified = true;
         this.model.active = true;
         //convert model to json              
@@ -88,11 +113,19 @@ export class CreateUserComponent implements OnInit {
         this.errorMsg = '';
         this.router.navigateByUrl( '/createUser' );
     }
-
+    /**
     changeCheckbox( i ) {
         for ( var j = 0; j < this.userRoles.length; j++ ) {
             if ( this.userRoles[j].id === i ) {
                 this.userRoles[j].isChecked = !this.userRoles[j].isChecked;
+            }
+        }
+    }
+    */
+    changeCheckbox( i ) {
+        for ( var j = 0; j < this.userGroups.length; j++ ) {
+            if ( this.userGroups[j].id === i ) {
+                this.userGroups[j].isChecked = !this.userGroups[j].isChecked;
             }
         }
     }

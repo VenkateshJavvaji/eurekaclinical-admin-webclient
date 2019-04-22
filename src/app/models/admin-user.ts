@@ -14,6 +14,7 @@ export class AdminUser {
     providerUsername: string;
     authenticationMethod: string;
     oauthProvider: string;
+    groups: any;
     roles: any;
     active: boolean;
     verified: boolean;
